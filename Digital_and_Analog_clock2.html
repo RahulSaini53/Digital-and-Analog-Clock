@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shift to Center</title>
+    <style>
+      body{
+        background-color: blueviolet;
+      }
+
+      .clock{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+       transform: translate(-50%, -50%);
+        background-image:url('shri_krishna_image.jpg');
+        background-size:85%;
+        background-attachment: fixed;
+        width: 200px;
+        height:200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        align-items:center;
+        border: 10px solid black;
+      }
+
+
+      .para{
+        position: absolute;
+        font-size:20px;
+        color:darkblue;
+        font-weight: 300;
+      }
+
+      .line {
+        transform-origin: left center;
+      }
+
+      .center{
+        position:absolute;
+         width:16px;
+         height:16px;
+         background-color: blue;
+         border-radius: 50%;
+      }
+      
+      .second{
+        z-index:1;
+        position:absolute;
+        width:80px;
+        height:4px;
+        background-color:black;
+        /* transform: rotate(-90deg); */
+        border-top-right-radius: 50%;
+        border-bottom-right-radius: 50%;
+      }
+
+      .minute{
+        z-index: 4;
+        position:absolute;
+        width:75px;
+        height:6px;
+        background-color:#369933;
+        /* transform: rotate(-90deg); */
+        border-top-right-radius: 50%;
+        border-bottom-right-radius: 50%;
+      }
+      .hour{
+        z-index:5;
+        position:absolute;
+        width:65px;
+        height:7px;
+        background-color:brown;
+        border-top-right-radius: 50%;
+        border-bottom-right-radius: 50%;
+        /* transform: rotate(-90deg); */
+      }
+
+      .digital_time{
+        display:flex;
+        border:4px solid black;
+        width:200px;
+        height:50px;
+        margin:160px auto 5px;
+        font-size:25px;
+        font-weight: 300;
+        align-items: center;
+        justify-content: center;
+        background-color: chartreuse;
+      }
+
+      /* audio{
+        display:none;
+      } */
+
+
+    </style>
+</head>
+<body>
+   <div class="digital_time"></div>
+    <div class="clock"> 
+       <span class="para"></span>
+       <span class="para"></span>
+       <span class="para"></span>
+       <span class="para"></span>
+       <span class="para"></span>
+       <span class="para"></span>
+       <span class="para"></span>
+       <span class="para"></span>
+       <span class="para"></span>
+       <span class="para"></span>
+       <span class="para"></span>
+       <span class="para"></span>
+
+       <div class="center"></div>
+      <div>
+       <div class="hour line"></div>
+       <div class="minute line"></div>
+       <div class="second line"></div>
+      </div>
+    </div>
+  
+    <audio src="ticking-clock_sound.mp3"></audio>
+
+
+<script>
+  x=document.getElementsByClassName('para');
+  p=1;
+  for(let i=1;i<=12;i++){
+    x[i-1].innerText=p;
+    let q=(Math.PI/6)*i;
+    a=90*(Math.sin(q));
+    b=90*(Math.cos(q));
+     x[i-1].style.transform=`translate(${a}px,${-b}px)`;
+    p+=1;
+  }
+
+    x=document.getElementsByClassName('line')
+
+
+    let i=j=k=0;
+    y=document.getElementsByClassName('digital_time');
+    z=document.querySelector('audio');
+    
+   function fun(){
+    let time_now=new Date();
+    const hours=time_now.getHours()%12;
+    const minutes=time_now.getMinutes();
+   const seconds=time_now.getSeconds();
+
+  y[0].innerText=`${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+    k=30*(hours+(minutes/60));
+    j=6*(minutes+(seconds/60));
+    i=6*seconds;
+    
+    x[0].style.transform=`rotate(${k-90}deg)`;
+    x[1].style.transform=`rotate(${j-90}deg)`;
+    z.play();
+
+    x[2].style.transform=`rotate(${i-90}deg)`;
+  }
+
+  setInterval(fun,1000);
+  fun();
+</script>
+</body>
+</html>
